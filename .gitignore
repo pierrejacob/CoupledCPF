@@ -1,0 +1,14 @@
+.Rproj.user
+*.Rhistory
+.RData
+.swp
+inst/*
+inst/
+src/*.o
+src/*.so
+src/*.dll
+.Rbuildignore
+CoupledPF.Rproj
+Rprof.out
+*.RData
+*.pdf
