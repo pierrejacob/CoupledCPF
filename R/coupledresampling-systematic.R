@@ -1,5 +1,5 @@
 #'@export
-ind_systematic_resampling <- function(xparticles1, xparticles2, normweights1, normweights2, ...){
+CR_systematic <- function(xparticles1, xparticles2, normweights1, normweights2, ...){
   u <- runif(1)
   nparticles <- nrow(xparticles1)
   ancestors1 <- systematic_resampling_n(normweights1, nparticles, u)

@@ -4,7 +4,7 @@
 # theta = (mu_alpha, log sd_alpha, logit c, logit e, logit ml, logit mq)
 
 #'@export
-get_pz_model <- function(){
+get_pz <- function(){
   logit <- function(z) log(z / (1 - z))
   expit <- function(z) 1 / (1 + exp(-z))
   

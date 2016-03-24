@@ -1,5 +1,5 @@
 #'@export
-hilbert_resampling <- function(xparticles1, xparticles2, normweights1, normweights2, ...){
+CR_hilbert <- function(xparticles1, xparticles2, normweights1, normweights2, ...){
   nparticles <- nrow(xparticles1)
   horder1 <- hilbert_order(xparticles1)
   horder2 <- hilbert_order(xparticles2)

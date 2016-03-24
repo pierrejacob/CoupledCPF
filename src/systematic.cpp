@@ -1,4 +1,5 @@
 #include <RcppEigen.h>
+#include "systematic.h"
 using namespace Rcpp;
 using namespace std;
 

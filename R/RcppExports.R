@@ -25,6 +25,10 @@ hilbert_order_ <- function(x) {
     .Call('CoupledPF_hilbert_order_', PACKAGE = 'CoupledPF', x)
 }
 
+indexmatching_cpp <- function(ndraws, w1, w2, uniforms) {
+    .Call('CoupledPF_indexmatching_cpp', PACKAGE = 'CoupledPF', ndraws, w1, w2, uniforms)
+}
+
 kalman_loglikelihood_ <- function(parameters, observations) {
     .Call('CoupledPF_kalman_loglikelihood_', PACKAGE = 'CoupledPF', parameters, observations)
 }
@@ -63,9 +67,5 @@ systematic_resampling_n_ <- function(weights, ndraws, u) {
 
 wasserstein_auto_ <- function(p_, q_, cost_matrix_, epsilon, desired_alpha) {
     .Call('CoupledPF_wasserstein_auto_', PACKAGE = 'CoupledPF', p_, q_, cost_matrix_, epsilon, desired_alpha)
-}
-
-wasserstein_ <- function(p_, q_, cost_matrix_, epsilon, niterations) {
-    .Call('CoupledPF_wasserstein_', PACKAGE = 'CoupledPF', p_, q_, cost_matrix_, epsilon, niterations)
 }
 

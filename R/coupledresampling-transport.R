@@ -1,5 +1,5 @@
 #'@export
-transport_resampling <- function(xparticles1, xparticles2, normweights1, normweights2, 
+CR_transport <- function(xparticles1, xparticles2, normweights1, normweights2, 
                                  parameters = list(epsilon = 0.1, desired_alpha = 0.9)){
   nparticles <- nrow(xparticles1)
   M <- cost_matrix(xparticles1, xparticles2)

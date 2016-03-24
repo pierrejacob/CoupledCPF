@@ -77,6 +77,20 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// indexmatching_cpp
+IntegerMatrix indexmatching_cpp(int ndraws, NumericVector w1, NumericVector w2, NumericVector uniforms);
+RcppExport SEXP CoupledPF_indexmatching_cpp(SEXP ndrawsSEXP, SEXP w1SEXP, SEXP w2SEXP, SEXP uniformsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< int >::type ndraws(ndrawsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type w1(w1SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type w2(w2SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type uniforms(uniformsSEXP);
+    __result = Rcpp::wrap(indexmatching_cpp(ndraws, w1, w2, uniforms));
+    return __result;
+END_RCPP
+}
 // kalman_loglikelihood_
 double kalman_loglikelihood_(const List& parameters, const NumericMatrix& observations);
 RcppExport SEXP CoupledPF_kalman_loglikelihood_(SEXP parametersSEXP, SEXP observationsSEXP) {
@@ -209,21 +223,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type epsilon(epsilonSEXP);
     Rcpp::traits::input_parameter< double >::type desired_alpha(desired_alphaSEXP);
     __result = Rcpp::wrap(wasserstein_auto_(p_, q_, cost_matrix_, epsilon, desired_alpha));
-    return __result;
-END_RCPP
-}
-// wasserstein_
-List wasserstein_(NumericVector p_, NumericVector q_, NumericMatrix cost_matrix_, double epsilon, int niterations);
-RcppExport SEXP CoupledPF_wasserstein_(SEXP p_SEXP, SEXP q_SEXP, SEXP cost_matrix_SEXP, SEXP epsilonSEXP, SEXP niterationsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< NumericVector >::type p_(p_SEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type q_(q_SEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type cost_matrix_(cost_matrix_SEXP);
-    Rcpp::traits::input_parameter< double >::type epsilon(epsilonSEXP);
-    Rcpp::traits::input_parameter< int >::type niterations(niterationsSEXP);
-    __result = Rcpp::wrap(wasserstein_(p_, q_, cost_matrix_, epsilon, niterations));
     return __result;
 END_RCPP
 }
