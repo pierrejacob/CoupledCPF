@@ -4,5 +4,5 @@
 CR_indexmatching <- function(xparticles1, xparticles2, normweights1, normweights2, ...){
   nparticles <- nrow(xparticles1)
   uniforms <- runif(nparticles + 2)
-  return(indexmatching_cpp(nparticles, nw1, nw2, uniforms) + 1)
+  return(indexmatching_cpp(nparticles, normweights1, normweights2, uniforms) + 1)
 }

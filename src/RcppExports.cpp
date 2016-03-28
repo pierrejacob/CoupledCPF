@@ -54,6 +54,70 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// indexmatching_cpp
+IntegerMatrix indexmatching_cpp(int ndraws, NumericVector w1, NumericVector w2, NumericVector uniforms);
+RcppExport SEXP CoupledPF_indexmatching_cpp(SEXP ndrawsSEXP, SEXP w1SEXP, SEXP w2SEXP, SEXP uniformsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< int >::type ndraws(ndrawsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type w1(w1SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type w2(w2SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type uniforms(uniformsSEXP);
+    __result = Rcpp::wrap(indexmatching_cpp(ndraws, w1, w2, uniforms));
+    return __result;
+END_RCPP
+}
+// indexmatching_given_cpp
+IntegerVector indexmatching_given_cpp(int ndraws, NumericVector w1, NumericVector w2, NumericVector uniforms, IntegerVector ancestors_ref);
+RcppExport SEXP CoupledPF_indexmatching_given_cpp(SEXP ndrawsSEXP, SEXP w1SEXP, SEXP w2SEXP, SEXP uniformsSEXP, SEXP ancestors_refSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< int >::type ndraws(ndrawsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type w1(w1SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type w2(w2SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type uniforms(uniformsSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type ancestors_ref(ancestors_refSEXP);
+    __result = Rcpp::wrap(indexmatching_given_cpp(ndraws, w1, w2, uniforms, ancestors_ref));
+    return __result;
+END_RCPP
+}
+// transport_cpp
+IntegerMatrix transport_cpp(NumericMatrix x1, NumericMatrix x2, NumericVector w1, NumericVector w2, NumericVector uniforms, double epsilon, double desired_alpha);
+RcppExport SEXP CoupledPF_transport_cpp(SEXP x1SEXP, SEXP x2SEXP, SEXP w1SEXP, SEXP w2SEXP, SEXP uniformsSEXP, SEXP epsilonSEXP, SEXP desired_alphaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x1(x1SEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type x2(x2SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type w1(w1SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type w2(w2SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type uniforms(uniformsSEXP);
+    Rcpp::traits::input_parameter< double >::type epsilon(epsilonSEXP);
+    Rcpp::traits::input_parameter< double >::type desired_alpha(desired_alphaSEXP);
+    __result = Rcpp::wrap(transport_cpp(x1, x2, w1, w2, uniforms, epsilon, desired_alpha));
+    return __result;
+END_RCPP
+}
+// transport_given_cpp
+IntegerVector transport_given_cpp(NumericMatrix x1, NumericMatrix x2, NumericVector w1, NumericVector w2, NumericVector uniforms, double epsilon, double desired_alpha, IntegerVector ancestors_ref);
+RcppExport SEXP CoupledPF_transport_given_cpp(SEXP x1SEXP, SEXP x2SEXP, SEXP w1SEXP, SEXP w2SEXP, SEXP uniformsSEXP, SEXP epsilonSEXP, SEXP desired_alphaSEXP, SEXP ancestors_refSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x1(x1SEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type x2(x2SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type w1(w1SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type w2(w2SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type uniforms(uniformsSEXP);
+    Rcpp::traits::input_parameter< double >::type epsilon(epsilonSEXP);
+    Rcpp::traits::input_parameter< double >::type desired_alpha(desired_alphaSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type ancestors_ref(ancestors_refSEXP);
+    __result = Rcpp::wrap(transport_given_cpp(x1, x2, w1, w2, uniforms, epsilon, desired_alpha, ancestors_ref));
+    return __result;
+END_RCPP
+}
 // create_A_
 NumericMatrix create_A_(double alpha, int d);
 RcppExport SEXP CoupledPF_create_A_(SEXP alphaSEXP, SEXP dSEXP) {
@@ -74,20 +138,6 @@ BEGIN_RCPP
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
     __result = Rcpp::wrap(hilbert_order_(x));
-    return __result;
-END_RCPP
-}
-// indexmatching_cpp
-IntegerMatrix indexmatching_cpp(int ndraws, NumericVector w1, NumericVector w2, NumericVector uniforms);
-RcppExport SEXP CoupledPF_indexmatching_cpp(SEXP ndrawsSEXP, SEXP w1SEXP, SEXP w2SEXP, SEXP uniformsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< int >::type ndraws(ndrawsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type w1(w1SEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type w2(w2SEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type uniforms(uniformsSEXP);
-    __result = Rcpp::wrap(indexmatching_cpp(ndraws, w1, w2, uniforms));
     return __result;
 END_RCPP
 }
@@ -137,6 +187,17 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const NumericVector& >::type weights(weightsSEXP);
     Rcpp::traits::input_parameter< double >::type u(uSEXP);
     __result = Rcpp::wrap(malikpitt_(xparticles, weights, u));
+    return __result;
+END_RCPP
+}
+// median_rcpp
+double median_rcpp(NumericVector x);
+RcppExport SEXP CoupledPF_median_rcpp(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    __result = Rcpp::wrap(median_rcpp(x));
     return __result;
 END_RCPP
 }

@@ -1,5 +1,5 @@
 #'@export
-geom_unbiased_estimator <- function(observations, model, theta, nparticles,
+rheeglynn_estimator <- function(observations, model, theta, nparticles,
                                proba_geom, coupled_resampling, final_resampling, resampling_parameters, with_as, TreeClass){
   datalength <- nrow(observations)
   geom_niterations <- rgeom(1, proba_geom)

@@ -21,18 +21,25 @@ pmmh <- function(pmmh_parameters, model, theta_init, observations){
       cat("iteration: ", iteration, " / ", mcmciterations, "\n")
       cat("acceptance rate: ", pmmh_naccepts / iteration * 100, "%\n")
     }
-    proposal <- current_theta + fast_rmvnorm(1, rep(0, theta_dim), proposal_covariance)
-    randomness <- model$generate_randomness(nparticles = nparticles, datalength = datalength)
-    proposal_ll <- try(particle_filter_storeall(nparticles, model, proposal, observations, randomness)$ll)
-    if (inherits(proposal_ll, "try-error")){
-      proposal_ll <- -Inf
-    }
-    proposal_posterior <- proposal_ll + model$dprior(proposal)
-    if (log(runif(1)) < (proposal_posterior - current_posterior)){
-      current_theta <- proposal
-      current_ll <- proposal_ll
-      current_posterior <- proposal_posterior
-      pmmh_naccepts <- pmmh_naccepts + 1
+    proposal <- current_theta + fast_rmvnorm(1, rep(0, theta_dim), proposal_covariance)[1,]
+    proposal_prior <- model$dprior(proposal)
+    if (!is.infinite(proposal_prior)){
+      randomness <- model$generate_randomness(nparticles = nparticles, datalength = datalength)
+      proposal_ll <- try(particle_filter_storeall(nparticles, model, proposal, observations, randomness)$ll)
+      if (inherits(proposal_ll, "try-error")){
+        proposal_ll <- -Inf
+      } else {
+        if (is.na(proposal_ll)){
+          proposal_ll <- -Inf
+        }
+      }
+      proposal_posterior <- proposal_ll + proposal_prior
+      if (log(runif(1)) < (proposal_posterior - current_posterior)){
+        current_theta <- proposal
+        current_ll <- proposal_ll
+        current_posterior <- proposal_posterior
+        pmmh_naccepts <- pmmh_naccepts + 1
+      }
     }
     pmmh_chain[iteration,] <- current_theta
     loglikelihoods[iteration] <- current_ll

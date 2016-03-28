@@ -17,16 +17,28 @@ square_cost_matrix_ <- function(x, y) {
     .Call('CoupledPF_square_cost_matrix_', PACKAGE = 'CoupledPF', x, y)
 }
 
+indexmatching_cpp <- function(ndraws, w1, w2, uniforms) {
+    .Call('CoupledPF_indexmatching_cpp', PACKAGE = 'CoupledPF', ndraws, w1, w2, uniforms)
+}
+
+indexmatching_given_cpp <- function(ndraws, w1, w2, uniforms, ancestors_ref) {
+    .Call('CoupledPF_indexmatching_given_cpp', PACKAGE = 'CoupledPF', ndraws, w1, w2, uniforms, ancestors_ref)
+}
+
+transport_cpp <- function(x1, x2, w1, w2, uniforms, epsilon, desired_alpha) {
+    .Call('CoupledPF_transport_cpp', PACKAGE = 'CoupledPF', x1, x2, w1, w2, uniforms, epsilon, desired_alpha)
+}
+
+transport_given_cpp <- function(x1, x2, w1, w2, uniforms, epsilon, desired_alpha, ancestors_ref) {
+    .Call('CoupledPF_transport_given_cpp', PACKAGE = 'CoupledPF', x1, x2, w1, w2, uniforms, epsilon, desired_alpha, ancestors_ref)
+}
+
 create_A_ <- function(alpha, d) {
     .Call('CoupledPF_create_A_', PACKAGE = 'CoupledPF', alpha, d)
 }
 
 hilbert_order_ <- function(x) {
     .Call('CoupledPF_hilbert_order_', PACKAGE = 'CoupledPF', x)
-}
-
-indexmatching_cpp <- function(ndraws, w1, w2, uniforms) {
-    .Call('CoupledPF_indexmatching_cpp', PACKAGE = 'CoupledPF', ndraws, w1, w2, uniforms)
 }
 
 kalman_loglikelihood_ <- function(parameters, observations) {
@@ -43,6 +55,10 @@ kalman_smoothing_means_ <- function(parameters, observations) {
 
 malikpitt_ <- function(xparticles, weights, u) {
     .Call('CoupledPF_malikpitt_', PACKAGE = 'CoupledPF', xparticles, weights, u)
+}
+
+median_rcpp <- function(x) {
+    .Call('CoupledPF_median_rcpp', PACKAGE = 'CoupledPF', x)
 }
 
 rmvnorm <- function(nsamples, mean, covariance) {

@@ -1,6 +1,9 @@
+#'@rdname coupled_pf_given
+#'@title coupled_pf_given
+#'@description runs a coupled particle filter, given the results of another one
 #'@export
-particle_filter_given_ref <- function(nparticles, model, theta2, observations, randomness, 
-                                    coupled_resampling, resampling_parameters = list(),
+coupled_pf_given <- function(nparticles, model, theta2, observations, randomness, 
+                                    coupled_resampling_given, resampling_parameters = list(),
                                     system_ref){
   datalength <- nrow(observations)
   # initialization
@@ -21,8 +24,8 @@ particle_filter_given_ref <- function(nparticles, model, theta2, observations, r
   # step t > 1
   for (time in 1:datalength){
     ancestors1 <- system_ref$ahistory[[time]]
-    ancestors2 <- coupled_resampling(xparticles1, xparticles2, normweights1, normweights2, 
-                                     resampling_parameters, ancestors1)
+    ancestors2 <- coupled_resampling_given(xparticles1, xparticles2, normweights1, normweights2, 
+                                     resampling_parameters, ancestors1, runif(2*nparticles + 1))
     ahistory[[time]] <- ancestors2
     xparticles2 <- xparticles2[ancestors2,]
     #

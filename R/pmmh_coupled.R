@@ -28,23 +28,29 @@ coupled_pmmh <- function(pmmh_parameters, model, theta_init, observations){
       cat("iteration: ", iteration, " / ", mcmciterations, "\n")
       cat("acceptance rate: ", pmmh_naccepts / iteration * 100, "%\n")
     }
-    proposal <- current_theta + as.numeric(fast_rmvnorm(1, rep(0, theta_dim), proposal_covariance))
-    proposal_randomness <- model$perturb_randomness(current_randomness, rho_perturb)
-    proposal_system <- try(particle_filter_given_ref(nparticles, model, proposal, observations, proposal_randomness,
-                                                 coupled_resampling, resampling_parameters, current_system))
-    if (inherits(proposal_system, "try-error")){
-      proposal_ll <- -Inf
-    } else {
-      proposal_ll <- proposal_system$ll
-    }
-    proposal_posterior <- proposal_ll + model$dprior(proposal)
-    if (log(runif(1)) < (proposal_ll - current_ll)){
-      current_theta <- proposal
-      current_ll <- proposal_ll
-      current_posterior <- proposal_posterior
-      current_randomness <- proposal_randomness
-      current_system <- proposal_system
-      pmmh_naccepts <- pmmh_naccepts + 1
+    proposal <- current_theta + fast_rmvnorm(1, rep(0, theta_dim), proposal_covariance)[1,]
+    proposal_prior <- model$dprior(proposal)
+    if (!is.infinite(proposal_prior)){
+      proposal_randomness <- model$perturb_randomness(current_randomness, rho_perturb)
+      proposal_system <- try(coupled_pf_given(nparticles, model, proposal, observations, proposal_randomness,
+                                              coupled_resampling, resampling_parameters, current_system))
+      if (inherits(proposal_system, "try-error")){
+        proposal_ll <- -Inf
+      } else {
+        proposal_ll <- proposal_system$ll
+        if (is.na(proposal_ll)){
+          proposal_ll <- -Inf
+        }
+      }
+      proposal_posterior <- proposal_ll + proposal_prior
+      if (log(runif(1)) < (proposal_ll - current_ll)){
+        current_theta <- proposal
+        current_ll <- proposal_ll
+        current_posterior <- proposal_posterior
+        current_randomness <- proposal_randomness
+        current_system <- proposal_system
+        pmmh_naccepts <- pmmh_naccepts + 1
+      }
     }
     pmmh_chain[iteration,] <- current_theta
     loglikelihoods[iteration] <- current_ll

@@ -1,5 +1,6 @@
 #include <RcppEigen.h>
 #include <algorithm>
+#include "wasserstein_auto.h"
 using namespace Rcpp;
 using namespace std;
 using namespace Eigen;

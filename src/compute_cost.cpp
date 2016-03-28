@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include <RcppEigen.h>
+#include "compute_cost.h"
 using namespace Rcpp;
 using namespace std;
 using namespace Eigen;
