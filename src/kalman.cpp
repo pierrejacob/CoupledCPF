@@ -129,7 +129,7 @@ NumericVector get_incremental_ll(Kalman* kalman){return wrap(kalman->getIncremen
 
 
 RCPP_EXPOSED_CLASS(LinearGaussian)
-  RCPP_EXPOSED_CLASS(Kalman)
+RCPP_EXPOSED_CLASS(Kalman)
 
   RCPP_MODULE(kalman_mod) {
     class_<LinearGaussian>( "LinearGaussian" )

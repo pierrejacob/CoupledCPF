@@ -21,18 +21,46 @@ NumericMatrix rmvnorm(int nsamples, const NumericVector & mean, const NumericMat
   return wrap(Y);
 }
 
-
-NumericMatrix centered_rmvnorm(int nsamples, const Eigen::MatrixXd & cholesky_covariance){
-  // sample centered gaussian variates given the upper triangular factor in the cholesky decomposition of the covariance
+// following function returns a d times n matrix of samples instead of a n times d matrix like the above function
+// [[Rcpp::export]]
+NumericMatrix rmvnorm_transpose(int nsamples, const NumericVector & mean, const NumericMatrix & covariance){
   RNGScope scope;
-  int ncols = cholesky_covariance.cols();
-  Eigen::MatrixXd Y(nsamples, ncols);
-  for(int i = 0; i < ncols; i++){
-    Y.col(i) = as<Eigen::ArrayXd>(rnorm(nsamples));
+  int dimension = covariance.cols();
+  const Eigen::Map<Eigen::MatrixXd> covariance_(as<Eigen::Map<Eigen::MatrixXd> >(covariance));
+  Eigen::MatrixXd cholesky_covariance(covariance_.llt().matrixL());
+  Eigen::MatrixXd Y(dimension, nsamples);
+  for(int i = 0; i < nsamples; i++){
+    Y.col(i) = as<Eigen::ArrayXd>(rnorm(dimension));
   }
-  Y = Y * cholesky_covariance;
+  Y = cholesky_covariance * Y;
+  for(int i = 0; i < nsamples; i++){
+    for(int j = 0; j < dimension; j++){
+      Y(j,i) = Y(j,i) + mean(j);
+    }
+  }
   return wrap(Y);
 }
+
+// following function returns a d times n matrix of samples and expects the lower Cholesky factor of the covariance
+// [[Rcpp::export]]
+NumericMatrix rmvnorm_transpose_cholesky(int nsamples, const NumericVector & mean, const Eigen::MatrixXd & cholesky_covariance){
+  RNGScope scope;
+  int dimension = cholesky_covariance.cols();
+  // const Eigen::Map<Eigen::MatrixXd> covariance_(as<Eigen::Map<Eigen::MatrixXd> >(covariance));
+  // Eigen::MatrixXd cholesky_covariance(covariance_.llt().matrixL());
+  Eigen::MatrixXd Y(dimension, nsamples);
+  for(int i = 0; i < nsamples; i++){
+    Y.col(i) = as<Eigen::ArrayXd>(rnorm(dimension));
+  }
+  Y = cholesky_covariance * Y;
+  for(int i = 0; i < nsamples; i++){
+    for(int j = 0; j < dimension; j++){
+      Y(j,i) = Y(j,i) + mean(j);
+    }
+  }
+  return wrap(Y);
+}
+
 
 // [[Rcpp::export]]
 NumericVector dmvnorm(const NumericMatrix & x, const NumericVector & mean, const NumericMatrix & covariance){
@@ -55,9 +83,50 @@ NumericVector dmvnorm(const NumericMatrix & x, const NumericVector & mean, const
   return wrap(results);
 }
 
-RCPP_MODULE(module_mvnorm) {
-  function( "rmvnorm", &rmvnorm );
-  function( "dmvnorm", &dmvnorm );
+
+// following function takes x as a d times n matrix instead of n times d
+
+// [[Rcpp::export]]
+NumericVector dmvnorm_transpose(const NumericMatrix & x, const NumericVector & mean, const NumericMatrix & covariance){
+  const Eigen::Map<Eigen::MatrixXd> covariance_(as<Eigen::Map<Eigen::MatrixXd> >(covariance));
+  const Eigen::Map<Eigen::MatrixXd> x_(as<Eigen::Map<Eigen::MatrixXd> >(x));
+  Eigen::LLT<Eigen::MatrixXd> lltofcov(covariance_);
+  Eigen::MatrixXd lower = lltofcov.matrixL();
+  // lower = cholesky_covariance;
+  Eigen::MatrixXd xcentered(x_);
+  double halflogdeterminant = lower.diagonal().array().log().sum();;
+  double cst = - (halflogdeterminant) - (x.rows() * 0.9189385);
+  for(int j = 0; j < x.cols(); j++){
+    for(int i = 0; i < x.rows(); i++){
+      xcentered(i,j) = xcentered(i,j) - mean(i);
+    }
+  }
+  Eigen::VectorXd results = -0.5 * lower.triangularView<Eigen::Lower>().solve(xcentered).colwise().squaredNorm();
+  for (int i = 0; i < results.size(); i++){
+    results(i) = results(i) + cst;
+  }
+  return wrap(results);
 }
 
-
+// The Cholesky decomposition should be lower triangular, so t(chol(V)) in R
+// [[Rcpp::export]]
+NumericVector dmvnorm_transpose_cholesky(const NumericMatrix & x, const NumericVector & mean, const Eigen::MatrixXd & cholesky_covariance){
+  // const Eigen::Map<Eigen::MatrixXd> covariance_(as<Eigen::Map<Eigen::MatrixXd> >(covariance));
+  const Eigen::Map<Eigen::MatrixXd> x_(as<Eigen::Map<Eigen::MatrixXd> >(x));
+  // Eigen::LLT<Eigen::MatrixXd> lltofcov(covariance_);
+  // Eigen::MatrixXd upper = lltofcov.matrixU();
+  // upper = cholesky_covariance;
+  Eigen::MatrixXd xcentered(x_);
+  double halflogdeterminant = cholesky_covariance.diagonal().array().log().sum();;
+  double cst = - (halflogdeterminant) - (x.rows() * 0.9189385);
+  for(int j = 0; j < x.cols(); j++){
+    for(int i = 0; i < x.rows(); i++){
+      xcentered(i,j) = xcentered(i,j) - mean(i);
+    }
+  }
+  Eigen::VectorXd results = -0.5 * cholesky_covariance.triangularView<Eigen::Lower>().solve(xcentered).colwise().squaredNorm();
+  for (int i = 0; i < results.size(); i++){
+    results(i) = results(i) + cst;
+  }
+  return wrap(results);
+}

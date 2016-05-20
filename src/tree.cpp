@@ -10,7 +10,7 @@ Tree::Tree(int N, int M, int dimx) : N(N), M(M), dimx(dimx) {
   this->nsteps = 0;
   a_star = IntegerVector(this->M);
   o_star = IntegerVector(this->M);
-  x_star = NumericMatrix(this->M, this->dimx);
+  x_star = NumericMatrix(this->dimx, this->M);
   l_star = IntegerVector(this->N);
   this->reset();
 }
@@ -28,7 +28,7 @@ void Tree::reset(){
 void Tree::init(NumericMatrix x_0){
   for (int i = 0; i < N; i ++){
     a_star(i) = -2;
-    x_star(i,_) = x_0(i,_);
+    x_star(_,i) = x_0(_,i);
     l_star(i) = i;
   }
 }
@@ -63,7 +63,7 @@ void Tree::insert(NumericMatrix x, IntegerVector a){
   // x_star <- scatter(x_t, l_star)
   for (int i = 0; i < N; i ++){
     a_star(l_star(i)) = b(i);
-    x_star(l_star(i),_) = x(i,_);
+    x_star(_,l_star(i)) = x(_,i);
   }
 }
 
@@ -104,10 +104,10 @@ void Tree::double_size(){
 //  cout << "doubling size of tree to " << this->M << endl;
   IntegerVector new_a_star(this->M);
   IntegerVector new_o_star(this->M);
-  NumericMatrix new_x_star(this->M, this->dimx);
+  NumericMatrix new_x_star(this->dimx, this->M);
   for (int i = 0; i < old_M; i++){
     new_a_star(i) = a_star(i);
-    new_x_star(i,_) = x_star(i,_);
+    new_x_star(_,i) = x_star(_,i);
     new_o_star(i) = o_star(i);
   }
   this->a_star = new_a_star;
@@ -116,26 +116,26 @@ void Tree::double_size(){
 }
 
 NumericMatrix Tree::get_path(int n){
-  NumericMatrix path(this->nsteps + 1, dimx);
+  NumericMatrix path(dimx, this->nsteps + 1);
   int j = this->l_star(n);
-  path(this->nsteps,_) = this->x_star(j,_);
+  path(_,this->nsteps) = this->x_star(_,j);
   int step = this->nsteps - 1;
   while (j >= 0 && step >= 0){
     j = this->a_star(j);
-    path(step,_) = this->x_star(j,_);
+    path(_,step) = this->x_star(_,j);
     step --;
   }
   return path;
 }
 
 NumericMatrix Tree::retrieve_xgeneration(int lag){
-  NumericMatrix xgeneration(N, dimx);
+  NumericMatrix xgeneration(dimx, N);
   for (int i_particle = 0; i_particle < N; i_particle ++){
     int j = this->l_star(i_particle);
     for (int i_step = 0; i_step < lag; i_step++){
       j = this->a_star(j);
     }
-    xgeneration(i_particle,_) = this->x_star(j,_);
+    xgeneration(_,i_particle) = this->x_star(_,j);
   }
   return xgeneration;
 }

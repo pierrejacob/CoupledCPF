@@ -44,18 +44,18 @@ struct push_back_state_and_time
 
 using namespace Rcpp;
 
-// [[Rcpp::export]]
-NumericVector one_step_pz_(double P, double Z,  double t, double alpha, double c, double e, double ml, double mq ) {
-  state_type x = { P , Z }; // initial conditions
-  vector<state_type> x_vec;
-  vector<double> times;
-  pz_ pz_instance(alpha, c, e, ml, mq);
-  size_t steps = integrate( pz_instance , x , t , t + 1, 1.0 , push_back_state_and_time(x_vec, times));
-  NumericVector result = NumericVector::create(0, 0);
-  result(0) = x_vec[steps][0];
-  result(1) = x_vec[steps][1];
-  return result;
-}
+// // [[Rcpp::export]]
+// NumericVector one_step_pz_(double P, double Z,  double t, double alpha, double c, double e, double ml, double mq ) {
+//   state_type x = { P , Z }; // initial conditions
+//   vector<state_type> x_vec;
+//   vector<double> times;
+//   pz_ pz_instance(alpha, c, e, ml, mq);
+//   size_t steps = integrate( pz_instance , x , t , t + 1, 1.0 , push_back_state_and_time(x_vec, times));
+//   NumericVector result = NumericVector::create(0, 0);
+//   result(0) = x_vec[steps][0];
+//   result(1) = x_vec[steps][1];
+//   return result;
+// }
 
 // [[Rcpp::export]]
 NumericMatrix one_step_pz_vector(NumericMatrix xparticles, NumericVector alphas, double t, NumericVector parameters){
@@ -63,17 +63,17 @@ NumericMatrix one_step_pz_vector(NumericMatrix xparticles, NumericVector alphas,
   double e = parameters[1];
   double  ml = parameters[2];
   double  mq = parameters[3];
-  NumericMatrix result(xparticles.rows(), 2);
-  for (int i = 0; i < xparticles.rows(); i++){
-    double P = xparticles(i, 0);
-    double Z = xparticles(i, 1);
+  NumericMatrix result(2, xparticles.cols());
+  for (int i = 0; i < xparticles.cols(); i++){
+    double P = xparticles(0, i);
+    double Z = xparticles(1, i);
     state_type x = { P , Z }; // initial conditions
     vector<state_type> x_vec;
     vector<double> times;
     pz_ pz_instance(alphas(i), c, e, ml, mq);
     size_t steps = integrate( pz_instance , x , t , t + 1, 1.0 , push_back_state_and_time(x_vec, times));
-    result(i, 0) = x_vec[steps][0];
-    result(i, 1) = x_vec[steps][1];
+    result(0, i) = x_vec[steps][0];
+    result(1, i) = x_vec[steps][1];
   }
   return result;
 }

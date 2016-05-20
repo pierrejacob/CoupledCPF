@@ -2,11 +2,11 @@
 % Please edit documentation in R/util_setmytheme.R
 \name{setmytheme}
 \alias{setmytheme}
-\title{Set My Theme}
+\title{Customize graphical settings}
 \usage{
 setmytheme()
 }
 \description{
-set theme of plots
+This function customizes the theme used by ggplot.
 }
 
