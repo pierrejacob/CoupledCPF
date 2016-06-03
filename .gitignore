@@ -2,8 +2,6 @@
 *.Rhistory
 .RData
 .swp
-inst/*
-inst/
 src/*.o
 src/*.so
 src/*.dll
