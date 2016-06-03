@@ -11,14 +11,14 @@
 #'@return A new trajectory.
 #'@export
 
-CPF <- function(nparticles, model, theta, observations, ref_trajectory, with_as = FALSE){
+CPF <- function(nparticles, model, theta, observations, ref_trajectory = NULL, with_as = FALSE){
   datalength <- nrow(observations)
   # create tree representation of the trajectories
   Tree <- new(TreeClass, nparticles, 10*nparticles*model$dimension, model$dimension)
   # initialization
-  model_precomputed <- model$precompute(theta, dimension)
+  model_precomputed <- model$precompute(theta)
   xparticles <- model$rinit(nparticles, theta, model$rinit_rand(nparticles, theta), model_precomputed)
-  if (!missing(ref_trajectory)){
+  if (!is.null(ref_trajectory)){
     xparticles[,nparticles] <- ref_trajectory[,1]
   }
   Tree$init(xparticles)
@@ -30,14 +30,18 @@ CPF <- function(nparticles, model, theta, observations, ref_trajectory, with_as 
   }
   # step t > 1
   for (time in 1:datalength){
-    ancestors <- systematic_resampling_n(normweights, nparticles, runif(1))
+    ancestors <- multinomial_resampling_n(normweights, nparticles)
+    # if no observation or first time, no resampling
+    if (time == 1 || (time > 1 && is.na(observations[time-1,1]))){
+      ancestors <- 1:nparticles
+    }
     xparticles <- xparticles[,ancestors]
     if (is.null(dim(xparticles))) xparticles <- matrix(xparticles, nrow = dimension)
     xparticles <- model$rtransition(xparticles, theta, time, model$rtransition_rand(nparticles, theta), model_precomputed)
-    if (!missing(ref_trajectory)){
+    if (!is.null(ref_trajectory)){
       xparticles[,nparticles] <- ref_trajectory[,time+1]
       if (with_as){
-        # % Ancestor sampling
+        # Ancestor sampling
         logm <- model$dtransition(ref_trajectory[,time+1], x_last, theta, time, model_precomputed)
         logm <- log(normweights) + logm
         w_as <- exp(logm - max(logm))

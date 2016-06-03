@@ -26,6 +26,6 @@ of the Geometric truncation variable. Set to zero to by-pass this choice.}
 a list with the estimator of the smoothing mean, the number of iterations it took, and the truncation variable if any
 }
 \description{
-Estimates the mean of the smoothing distributio at all times.
+Estimates the mean of the smoothing distribution at all times.
 }
 

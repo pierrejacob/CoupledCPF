@@ -4,7 +4,8 @@
 \alias{CPF}
 \title{Conditional Particle Filter}
 \usage{
-CPF(nparticles, model, theta, observations, ref_trajectory, with_as = FALSE)
+CPF(nparticles, model, theta, observations, ref_trajectory = NULL,
+  with_as = FALSE)
 }
 \arguments{
 \item{nparticles}{number of particles}

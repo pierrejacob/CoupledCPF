@@ -37,16 +37,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // indexmatching_cpp
-IntegerMatrix indexmatching_cpp(int ndraws, NumericVector w1, NumericVector w2, NumericVector uniforms);
-RcppExport SEXP CoupledCPF_indexmatching_cpp(SEXP ndrawsSEXP, SEXP w1SEXP, SEXP w2SEXP, SEXP uniformsSEXP) {
+IntegerMatrix indexmatching_cpp(NumericVector w1, NumericVector w2, int ndraws);
+RcppExport SEXP CoupledCPF_indexmatching_cpp(SEXP w1SEXP, SEXP w2SEXP, SEXP ndrawsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< int >::type ndraws(ndrawsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type w1(w1SEXP);
     Rcpp::traits::input_parameter< NumericVector >::type w2(w2SEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type uniforms(uniformsSEXP);
-    __result = Rcpp::wrap(indexmatching_cpp(ndraws, w1, w2, uniforms));
+    Rcpp::traits::input_parameter< int >::type ndraws(ndrawsSEXP);
+    __result = Rcpp::wrap(indexmatching_cpp(w1, w2, ndraws));
     return __result;
 END_RCPP
 }
@@ -59,17 +58,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
     Rcpp::traits::input_parameter< int >::type d(dSEXP);
     __result = Rcpp::wrap(create_A_(alpha, d));
-    return __result;
-END_RCPP
-}
-// hilbert_order_
-NumericVector hilbert_order_(NumericMatrix x);
-RcppExport SEXP CoupledCPF_hilbert_order_(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = Rcpp::wrap(hilbert_order_(x));
     return __result;
 END_RCPP
 }
@@ -97,6 +85,45 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// one_step_lorenz_vector
+NumericMatrix one_step_lorenz_vector(NumericMatrix xparticles, double tstart, double tend, double h, NumericVector parameters);
+RcppExport SEXP CoupledCPF_one_step_lorenz_vector(SEXP xparticlesSEXP, SEXP tstartSEXP, SEXP tendSEXP, SEXP hSEXP, SEXP parametersSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericMatrix >::type xparticles(xparticlesSEXP);
+    Rcpp::traits::input_parameter< double >::type tstart(tstartSEXP);
+    Rcpp::traits::input_parameter< double >::type tend(tendSEXP);
+    Rcpp::traits::input_parameter< double >::type h(hSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type parameters(parametersSEXP);
+    __result = Rcpp::wrap(one_step_lorenz_vector(xparticles, tstart, tend, h, parameters));
+    return __result;
+END_RCPP
+}
+// lorenz_generate_randomness_cpp
+NumericVector lorenz_generate_randomness_cpp(int nparticles, int datalength);
+RcppExport SEXP CoupledCPF_lorenz_generate_randomness_cpp(SEXP nparticlesSEXP, SEXP datalengthSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< int >::type nparticles(nparticlesSEXP);
+    Rcpp::traits::input_parameter< int >::type datalength(datalengthSEXP);
+    __result = Rcpp::wrap(lorenz_generate_randomness_cpp(nparticles, datalength));
+    return __result;
+END_RCPP
+}
+// lorenz_perturb_randomness_cpp
+NumericVector lorenz_perturb_randomness_cpp(const NumericVector& randomness, double rho);
+RcppExport SEXP CoupledCPF_lorenz_perturb_randomness_cpp(SEXP randomnessSEXP, SEXP rhoSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const NumericVector& >::type randomness(randomnessSEXP);
+    Rcpp::traits::input_parameter< double >::type rho(rhoSEXP);
+    __result = Rcpp::wrap(lorenz_perturb_randomness_cpp(randomness, rho));
+    return __result;
+END_RCPP
+}
 // median_rcpp
 double median_rcpp(NumericVector x);
 RcppExport SEXP CoupledCPF_median_rcpp(SEXP xSEXP) {
@@ -105,6 +132,31 @@ BEGIN_RCPP
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
     __result = Rcpp::wrap(median_rcpp(x));
+    return __result;
+END_RCPP
+}
+// multinomial_resampling_n_
+IntegerVector multinomial_resampling_n_(const NumericVector& weights, int ndraws);
+RcppExport SEXP CoupledCPF_multinomial_resampling_n_(SEXP weightsSEXP, SEXP ndrawsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const NumericVector& >::type weights(weightsSEXP);
+    Rcpp::traits::input_parameter< int >::type ndraws(ndrawsSEXP);
+    __result = Rcpp::wrap(multinomial_resampling_n_(weights, ndraws));
+    return __result;
+END_RCPP
+}
+// coupled_multinomial_resampling_n_
+IntegerMatrix coupled_multinomial_resampling_n_(const NumericVector& weights1, const NumericVector& weights2, int ndraws);
+RcppExport SEXP CoupledCPF_coupled_multinomial_resampling_n_(SEXP weights1SEXP, SEXP weights2SEXP, SEXP ndrawsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const NumericVector& >::type weights1(weights1SEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type weights2(weights2SEXP);
+    Rcpp::traits::input_parameter< int >::type ndraws(ndrawsSEXP);
+    __result = Rcpp::wrap(coupled_multinomial_resampling_n_(weights1, weights2, ndraws));
     return __result;
 END_RCPP
 }

@@ -1,6 +1,6 @@
 #'@rdname rheeglynn_estimator
 #'@title Rhee--Glynn smoothing estimator 
-#'@description Estimates the mean of the smoothing distributio at all times.
+#'@description Estimates the mean of the smoothing distribution at all times.
 #'@param observations a matrix of observations of size datalength x dimension(observation)
 #'@param model a list representing a model, for instance as given by \code{\link{get_ar}}.
 #'@param theta a parameter to give to the model functions
@@ -38,9 +38,9 @@ rheeglynn_estimator <- function(observations, model, theta, algoparameters, forc
   }
   iteration <- iteration + 1
   xref <- CPF(nparticles, model, theta, observations, xref, with_as)
-  estimate <- estimate + (xref_tilde - xref) / survival_probabilities[1]
+  estimate <- estimate + (xref - xref_tilde) / survival_probabilities[1]
   if (truncation == 1 && force_niterations == 0){
-    return(list(estimate = estimate, iteration = iteration, truncation = truncation, distances = distances))
+    return(list(estimate = estimate, iteration = iteration, truncation = truncation))
   }
   
   while ((force_niterations == 0 && iteration < truncation) || (force_niterations != 0 && iteration < force_niterations)){

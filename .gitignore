@@ -12,3 +12,4 @@ CoupledPF.Rproj
 Rprof.out
 *.RData
 *.pdf
+*.DS*

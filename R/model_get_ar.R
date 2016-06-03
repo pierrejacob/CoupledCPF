@@ -33,7 +33,7 @@ get_ar <- function(dimension){
     return(dmvnorm_transpose_cholesky(xparticles, observation, precomputed$di))
   }
   
-  precompute <- function(theta, dimension){
+  precompute <- function(theta){
     A <- create_A(theta, dimension)
     return(list(A = A, di = diag(1, dimension, dimension)))
   }

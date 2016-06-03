@@ -1,14 +1,14 @@
 Package: CoupledCPF
 Type: Package
-Title: What the package does (short line)
+Title: Coupling of Conditional Particle Filters
 Version: 1.0
 Date: 2014-11-05
-Author: Your Name
-Maintainer: Your Name <your@email.com>
-Description: More about what it does (maybe more than one line)
+Author: Pierre E. Jacob
+Maintainer: Pierre E. Jacob <pierre.jacob.work@gmail.com>
+Description: Methods to couple conditional particle filters, in order to produce unbiased estimators of smoothing quantities
 License: GPL (>= 2)
 Depends:
-    Rcpp,RcppEigen,BH,doMC,foreach,ggplot2,dplyr,reshape2,gridExtra
+    Rcpp,RcppEigen,BH,doMC,foreach,dplyr,reshape2,ggplot2
 Imports:
     Rcpp (>= 0.11.6),RcppEigen,BH
 LinkingTo: Rcpp,RcppEigen,BH

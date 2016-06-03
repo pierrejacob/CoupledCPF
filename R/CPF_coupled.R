@@ -13,14 +13,14 @@
 #'@export
 
 CPF_coupled <- function(nparticles, model, theta, observations, ref_trajectory1, ref_trajectory2, 
-                        coupled_resampling, with_as){
+                        coupled_resampling, with_as = FALSE){
   #
   datalength <- nrow(observations)
   # create tree representation of the trajectories
   Tree1 <- new(TreeClass, nparticles, 10*nparticles*model$dimension, model$dimension)
   Tree2 <- new(TreeClass, nparticles, 10*nparticles*model$dimension, model$dimension)
   # initialization
-  model_precomputed <- model$precompute(theta, dimension)
+  model_precomputed <- model$precompute(theta)
   init_rand <- model$rinit_rand(nparticles, theta)
   xparticles1 <- model$rinit(nparticles, theta, init_rand, model_precomputed)
   xparticles1[,nparticles] <- ref_trajectory1[,1]
@@ -42,6 +42,11 @@ CPF_coupled <- function(nparticles, model, theta, observations, ref_trajectory1,
     ancestors <- coupled_resampling(xparticles1, xparticles2, normweights1, normweights2)
     ancestors1 <- ancestors[,1]
     ancestors2 <- ancestors[,2]
+    # if no observation or first time, no resampling
+    if (time == 1 || (time > 1 && is.na(observations[time-1,1]))){
+      ancestors1 <- 1:nparticles
+      ancestors2 <- 1:nparticles
+    }
     #
     xparticles1 <- xparticles1[,ancestors1]
     xparticles2 <- xparticles2[,ancestors2]

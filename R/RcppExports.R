@@ -9,16 +9,12 @@ ar_rtransition_rcpp <- function(xparticles, theta, time, rand, dimension, A) {
     .Call('CoupledCPF_ar_rtransition_rcpp', PACKAGE = 'CoupledCPF', xparticles, theta, time, rand, dimension, A)
 }
 
-indexmatching_cpp <- function(ndraws, w1, w2, uniforms) {
-    .Call('CoupledCPF_indexmatching_cpp', PACKAGE = 'CoupledCPF', ndraws, w1, w2, uniforms)
+indexmatching_cpp <- function(w1, w2, ndraws) {
+    .Call('CoupledCPF_indexmatching_cpp', PACKAGE = 'CoupledCPF', w1, w2, ndraws)
 }
 
 create_A_ <- function(alpha, d) {
     .Call('CoupledCPF_create_A_', PACKAGE = 'CoupledCPF', alpha, d)
-}
-
-hilbert_order_ <- function(x) {
-    .Call('CoupledCPF_hilbert_order_', PACKAGE = 'CoupledCPF', x)
 }
 
 levydriven_rtransition_rand_cpp <- function(nparticles, theta) {
@@ -29,8 +25,28 @@ levydrivenmultifactor_rtransition_rand_cpp <- function(nparticles, theta) {
     .Call('CoupledCPF_levydrivenmultifactor_rtransition_rand_cpp', PACKAGE = 'CoupledCPF', nparticles, theta)
 }
 
+one_step_lorenz_vector <- function(xparticles, tstart, tend, h, parameters) {
+    .Call('CoupledCPF_one_step_lorenz_vector', PACKAGE = 'CoupledCPF', xparticles, tstart, tend, h, parameters)
+}
+
+lorenz_generate_randomness_cpp <- function(nparticles, datalength) {
+    .Call('CoupledCPF_lorenz_generate_randomness_cpp', PACKAGE = 'CoupledCPF', nparticles, datalength)
+}
+
+lorenz_perturb_randomness_cpp <- function(randomness, rho) {
+    .Call('CoupledCPF_lorenz_perturb_randomness_cpp', PACKAGE = 'CoupledCPF', randomness, rho)
+}
+
 median_rcpp <- function(x) {
     .Call('CoupledCPF_median_rcpp', PACKAGE = 'CoupledCPF', x)
+}
+
+multinomial_resampling_n_ <- function(weights, ndraws) {
+    .Call('CoupledCPF_multinomial_resampling_n_', PACKAGE = 'CoupledCPF', weights, ndraws)
+}
+
+coupled_multinomial_resampling_n_ <- function(weights1, weights2, ndraws) {
+    .Call('CoupledCPF_coupled_multinomial_resampling_n_', PACKAGE = 'CoupledCPF', weights1, weights2, ndraws)
 }
 
 rmvnorm <- function(nsamples, mean, covariance) {

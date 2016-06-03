@@ -5,7 +5,7 @@
 \title{Coupled Conditional Particle Filter}
 \usage{
 CPF_coupled(nparticles, model, theta, observations, ref_trajectory1,
-  ref_trajectory2, coupled_resampling, with_as)
+  ref_trajectory2, coupled_resampling, with_as = FALSE)
 }
 \arguments{
 \item{nparticles}{number of particles}
