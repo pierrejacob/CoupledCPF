@@ -2,8 +2,8 @@
 % Please edit documentation in R/CoupledCPF-package.R
 \docType{package}
 \name{CoupledCPF-package}
-\alias{CoupledCPF}
 \alias{CoupledCPF-package}
+\alias{CoupledCPF}
 \title{CoupledCPF}
 \description{
 ...
@@ -12,7 +12,6 @@
 ...
 }
 \author{
-Pierre E. Jacob <pierre.jacob.work@gmail.com>
+?? <anonymous@anonymous.com>
 }
 \keyword{package}
-

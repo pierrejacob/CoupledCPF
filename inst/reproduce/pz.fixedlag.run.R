@@ -3,9 +3,10 @@ rm(list = ls())
 # load package
 library(CoupledCPF)
 library(doRNG)
+library(doParallel)
 library(ggthemes)
-ncores <- 10
-registerDoMC(cores = ncores)
+library(dplyr)
+registerDoParallel(cores = detectCores() - 2)
 # load custom theme for the plots
 # it requires the packages ggplot2, gridExtra, reshape
 setmytheme()
@@ -33,29 +34,32 @@ dimension <- 2
 pz <- get_pz()
 
 
-nparticles <- 2^12
+nparticles <- 2^16
+
 nrep <- 1000
+
 lag <- 10
 print(lag)
-fixedlag.df <- foreach(irep = 1:nrep, .combine = rbind) %dorng% {
+
+fixedlag.dfL10 <- foreach(irep = 1:nrep, .combine = rbind) %dorng% {
   res <- fixedlagsmoother(nparticles, lag, pz, theta, observations)
   data.frame(irep = irep, time = 0:365, Z = res$smoothing_means[,2])
 }
-fixedlag.summary.df <- fixedlag.df %>% select(irep, time, Z) %>% group_by(time) %>%
+fixedlag.summary.df <- fixedlag.dfL10 %>% select(irep, time, Z) %>% group_by(time) %>%
   summarise(m.2 = mean(Z), s.2 = sd(Z) / sqrt(nrep))
 fixedlag.variance.dfL10 <- fixedlag.summary.df %>% mutate(var = (s.2/m.2)^2)
 fixedlag.variance.dfL10$method = "fixed lag L=10  "
 # 
 lag <- datalength
 print(lag)
-fixedlag.df <- foreach(irep = 1:nrep, .combine = rbind) %dorng% {
+fixedlag.dfL365 <- foreach(irep = 1:nrep, .combine = rbind) %dorng% {
   res <- fixedlagsmoother(nparticles, lag, pz, theta, observations)
   data.frame(irep = irep, time = 0:365, Z = res$smoothing_means[,2])
 }
-fixedlag.summary.df <- fixedlag.df %>% select(irep, time, Z) %>% group_by(time) %>%
+fixedlag.summary.df <- fixedlag.dfL365 %>% select(irep, time, Z) %>% group_by(time) %>%
   summarise(m.2 = mean(Z), s.2 = sd(Z) / sqrt(nrep))
 fixedlag.variance.dfL365 <- fixedlag.summary.df %>% mutate(var = (s.2/m.2)^2)
 fixedlag.variance.dfL365$method = "fixed lag L=365  "
 
-save(fixedlag.variance.dfL10, fixedlag.variance.dfL365, 
-     file = "pz.fxdlagR1000N4096T365.RData")
+save(fixedlag.dfL10, fixedlag.dfL365, fixedlag.variance.dfL10, fixedlag.variance.dfL365, 
+     file = paste0("pz.fxdlagR", nrep, "N", nparticles, "T365.RData"))

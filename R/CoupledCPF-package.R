@@ -2,7 +2,7 @@
 #'@aliases CoupledCPF
 #'@docType package
 #'@title CoupledCPF
-#'@author Pierre E. Jacob <pierre.jacob.work@@gmail.com>
+#'@author ?? <anonymous@anonymous.com>
 #'@description ...
 #'@details ...
 #'@keywords package

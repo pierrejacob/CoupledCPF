@@ -11,3 +11,9 @@ Rprof.out
 *.RData
 *.pdf
 *.DS*
+inst/reproduceunlikely
+inst/reproducepz
+inst/reproducear1
+inst/reproducegss
+inst/misc
+inst/animation

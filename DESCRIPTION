@@ -3,13 +3,13 @@ Type: Package
 Title: Coupling of Conditional Particle Filters
 Version: 1.0
 Date: 2014-11-05
-Author: Pierre E. Jacob
-Maintainer: Pierre E. Jacob <pierre.jacob.work@gmail.com>
+Author: ??
+Maintainer: ??  <anonymous@anonymous.com>
 Description: Methods to couple conditional particle filters, in order to produce unbiased estimators of smoothing quantities
 License: GPL (>= 2)
 Depends:
-    Rcpp,RcppEigen,BH,doMC,foreach,dplyr,reshape2,ggplot2
+    Rcpp,RcppEigen,BH
 Imports:
     Rcpp (>= 0.11.6),RcppEigen,BH
 LinkingTo: Rcpp,RcppEigen,BH
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

@@ -3,9 +3,9 @@ rm(list = ls())
 # load package
 library(CoupledCPF)
 library(doRNG)
+library(doParallel)
 library(reshape2)
-ncores <- 4
-registerDoMC(cores = ncores)
+registerDoParallel(cores = detectCores())
 # load custom theme for the plots
 # it requires the packages ggplot2, gridExtra, reshape
 setmytheme()

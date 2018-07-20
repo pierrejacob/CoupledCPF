@@ -9,4 +9,3 @@ normalize_weight(logw)
 \description{
 takes log weights and return normalized weights
 }
-

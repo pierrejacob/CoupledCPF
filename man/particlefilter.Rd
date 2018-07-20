@@ -22,4 +22,3 @@ and the associated normalized weights
 \description{
 Particle filter with storage of trajectories
 }
-

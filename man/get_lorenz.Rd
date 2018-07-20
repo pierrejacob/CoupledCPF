@@ -19,4 +19,3 @@ This function returns a list with objects such as
 * perturb_randomness to evaluate the measurement density
 * dimension, which represents the dimension of the latent process
 }
-

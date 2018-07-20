@@ -68,7 +68,7 @@ IntegerMatrix coupled_multinomial_resampling_n_(const NumericVector & weights1, 
   for (int i = 0; i < ndraws; ++i){
     indexes.push_back(i);
   }
-  std::random_shuffle(indexes.begin(), indexes.end());
+  std::random_shuffle(indexes.begin(), indexes.end(), randWrapper);
   // cerr << "assignment " << endl;
   for (int i = 0; i < ndraws; i++){
     ancestors(i,0) = ancestors1[indexes[i]];

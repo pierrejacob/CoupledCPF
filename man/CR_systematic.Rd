@@ -12,4 +12,3 @@ Two vectors of ancestors, column-binded in a matrix.
 \description{
 This function performs systematic resampling with the same uniform on each system.
 }
-

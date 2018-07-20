@@ -1,0 +1,47 @@
+To reproduce the tables and figures of the article, proceed this way,
+i.e. run the following scripts in the given order
+
+Section 6.1
+Experiments in the hidden auto-regressive model
+
+* ar1.generatedata.R: generates data set from hidden AR(1) model
+* ar1.meetingtimes.R: generates meeting times for different values of N and fixed T = 100, with ancestor sampling
+* ar1.kandm.R: generates estimates with N = 128, T = 100, different values of k and m
+
+At this point you can produce Figure 1 in the manuscript.
+
+* ar1.plots.R: loads the results of the above scripts and create the two plots of Figure 1
+
+Then the following scripts generate meeting times with different values of N and T, with and without ancestor sampling
+and with bootstrap particle filter (BPF) and auxiliary particle filter (APF)
+
+* ar1.effecthorizon.R: with BPF
+* ar1.effecthorizon.optimal.R: with APF
+* ar1.effecthorizon.table.R: creates table 1 of the manuscript 
+
+Section 6.2
+Experiments with a hidden auto-regressive model with an unlikely observation
+
+This creates Figure 2 in the manuscript.
+
+* unlikely.exact.R: computes exact smoothing means in that example
+* unlikely.PF.R: runs bootstrap particle filters with different numbers of particles from 2^8 to 2^14, 10,000 times independently
+* unlikely.RG.R: runs Rhee-Glynn estimators with different numbers of particles from 2^7 to 2^10, 10,000 times independently, without ancestor sampling
+* unlikely.plots.R: produces the plots of Figure 2 in the manuscript
+
+Section 6.3 
+Experiments with a prey-predator model with intractable transition densities
+The model is called "PZ" for phytoplankton-zooplankton.
+
+This creates Figure 3 in the manuscript.
+
+* pz.generatedata.R: generates data from PZ model
+* pz.PG.R: generates long CPF chain to get some "ground truth" for the smoothing means
+* pz.fixedlag.run.R: generates runs of fixed-lag smoothers
+* pz.RG.run.R: generates Rhee-Glynn estimators
+
+Then the files are ready for plotting:
+
+* pz.plots.R: generates the two plots of Figure 3
+
+

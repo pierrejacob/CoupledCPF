@@ -10,4 +10,3 @@ lorenz_transition(xparticles, time_start, time_end, dt, parameters)
 Solve lorenz ODE for each particle, given each alpha, from time to time + 1,
 and given the parameters (c, e, ml, mq).
 }
-

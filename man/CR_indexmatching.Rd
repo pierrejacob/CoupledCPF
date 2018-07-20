@@ -12,4 +12,3 @@ Two vectors of ancestors, column-binded in a matrix.
 \description{
 This function performs coupled resampling based on index-matching.
 }
-

@@ -23,4 +23,3 @@ a list with the estimator of the smoothing means, and the second moments of the 
 \description{
 Estimates the mean of the smoothing distributio at all times, by fixed-lag smoothing
 }
-

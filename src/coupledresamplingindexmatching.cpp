@@ -6,6 +6,7 @@ using namespace std;
 
 // [[Rcpp::export]]
 IntegerMatrix indexmatching_cpp(NumericVector w1, NumericVector w2, int ndraws){
+  RNGScope scope;
   int nparticles = w1.size();
   NumericVector uniforms = runif(nparticles);
   NumericVector nu(nparticles);

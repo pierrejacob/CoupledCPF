@@ -34,7 +34,7 @@ get_ar <- function(dimension){
   }
   
   precompute <- function(theta){
-    A <- create_A(theta, dimension)
+    A <- create_A(theta[1], dimension)
     return(list(A = A, di = diag(1, dimension, dimension)))
   }
   

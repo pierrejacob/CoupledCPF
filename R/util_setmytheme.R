@@ -3,6 +3,7 @@
 #'@description This function customizes the theme used by ggplot.
 #'@export
 setmytheme <- function(){
+  library(ggplot2)
   theme_set(theme_bw())
   theme_update(axis.text.x = element_text(size = 20),
                axis.text.y = element_text(size = 20),
@@ -13,6 +14,5 @@ setmytheme <- function(){
                title = element_text(size = 30),
                strip.text = element_text(size = 25),
                strip.background = element_rect(fill="white"),
-               panel.margin = unit(2, "lines"),
                legend.position = "bottom")
 }
