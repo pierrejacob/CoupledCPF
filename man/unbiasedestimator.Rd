@@ -4,8 +4,8 @@
 \alias{unbiasedestimator}
 \title{Rhee--Glynn smoothing estimator}
 \usage{
-unbiasedestimator(single_kernel, coupled_kernel, rinit, h = function(x) x,
-  k = 0, m = 1, max_iterations = Inf)
+unbiasedestimator(single_kernel, coupled_kernel, rinit, h = function(x)
+  x, k = 0, m = 1, max_iterations = Inf)
 }
 \arguments{
 \item{single_kernel}{function to sample the Markov chain}
