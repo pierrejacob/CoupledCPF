@@ -40,7 +40,7 @@ plot(1:datalength, observations, type = "l")
 
 # now let us estimate the smoothing mean with the proposed method
 # number of particles
-N <- 256
+N <- 512
 # with ancestor sampling
 with_as <- TRUE
 # coupled resampling scheme
@@ -65,7 +65,7 @@ res <- unbiasedestimator_RB(single_kernel_RB, coupled_kernel_RB, rinit, h = h, k
 res$meetingtime
 
 # how many estimators do we want?
-R <- 100
+R <- 10
 # the following should take a few seconds if you have a few processing units 
 estimates.df <- foreach(r = 1:R, .combine = rbind) %dorng% {
   res <- unbiasedestimator_RB(single_kernel_RB, coupled_kernel_RB, rinit, h = h, k = 0, m = 1)
