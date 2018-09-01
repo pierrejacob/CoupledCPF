@@ -56,7 +56,6 @@ for (time in 1:datalength){
   observations[time,] <- x_t + fast_rmvnorm(1, rep(0, 1), diag(1, nrow = 1, ncol = 1))
 }
 Y <- observations[,1]
-# T <- length(observations)
 
 library(dlm)
 d <- dlm(list(m0 = 0, C0 = 1, FF = 1, V = 1, GG = theta, W = 1))
@@ -76,7 +75,7 @@ with_as <- TRUE
 # coupled resampling scheme
 coupled_resampling <- CR_indexmatching
 # number of particles
-N <- 256
+N <- 512
 # initial distribution of the chains
 rinit <- function(){
   return(CPF(N, ar1, theta, observations, ref_trajectory = NULL, with_as = with_as))
@@ -96,7 +95,7 @@ h <- function(x) x
 res <- unbiasedestimator_RB(single_kernel_RB, coupled_kernel_RB, rinit, h = h, k = 0, m = 1)
 res$meetingtime
 # now run 100 to get the distribution of meeting times
-nrep <- 100
+nrep <- 10
 results.df <- foreach(irep = 1:nrep, .combine = rbind) %dorng% {
   res <- unbiasedestimator_RB(single_kernel_RB, coupled_kernel_RB, rinit, h = h, k = 0, m = 1)
   data.frame(irep = irep, meeting = res$iteration, time = 0:datalength, estimate = as.numeric(res$uestimator))
@@ -104,10 +103,10 @@ results.df <- foreach(irep = 1:nrep, .combine = rbind) %dorng% {
 summary(results.df$meeting)
 hist(results.df$meeting)
 
-# so we can choose k = 5 and m = 10, say
-nrep <- 100
+# so we can choose k = 25 and m = 100, say
+nrep <- 10
 results.kandm.df <- foreach(irep = 1:nrep, .combine = rbind) %dorng% {
-  res <- unbiasedestimator_RB(single_kernel_RB, coupled_kernel_RB, rinit, h = h, k = 5, m = 10)
+  res <- unbiasedestimator_RB(single_kernel_RB, coupled_kernel_RB, rinit, h = h, k = 25, m = 100)
   data.frame(irep = irep, meeting = res$iteration, time = 0:datalength, estimate = as.numeric(res$uestimator))
 }
 
@@ -121,7 +120,7 @@ g <- g + geom_line(data=ks.df, aes(x = time, y = ksm, colour = NULL, group = NUL
 g <- g + ylab("latent process means") + ylim(-10, 5) + xlab("time")
 g
 
-# with k = 5 and m = 10, precise results
+# with k = 25 and m = 100, precise results
 g <- ggplot(means.kandm.df, aes(x = time)) + geom_errorbar(aes(ymin = m - 2 * s / sqrt(nrep), ymax = m + 2 * s/ sqrt(nrep)))
 g <- g + geom_line(data=ks.df, aes(x = time, y = ksm, colour = NULL, group = NULL), colour = "red")
 g <- g + ylab("latent process means") + ylim(-10, 5) + xlab("time")
