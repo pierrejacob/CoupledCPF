@@ -9,10 +9,6 @@ ar_rtransition_rcpp <- function(xparticles, theta, time, rand, dimension, A) {
     .Call('_CoupledCPF_ar_rtransition_rcpp', PACKAGE = 'CoupledCPF', xparticles, theta, time, rand, dimension, A)
 }
 
-indexmatching_cpp <- function(w1, w2, ndraws) {
-    .Call('_CoupledCPF_indexmatching_cpp', PACKAGE = 'CoupledCPF', w1, w2, ndraws)
-}
-
 create_A_ <- function(alpha, d) {
     .Call('_CoupledCPF_create_A_', PACKAGE = 'CoupledCPF', alpha, d)
 }

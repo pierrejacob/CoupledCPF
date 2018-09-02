@@ -36,19 +36,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// indexmatching_cpp
-IntegerMatrix indexmatching_cpp(NumericVector w1, NumericVector w2, int ndraws);
-RcppExport SEXP _CoupledCPF_indexmatching_cpp(SEXP w1SEXP, SEXP w2SEXP, SEXP ndrawsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type w1(w1SEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type w2(w2SEXP);
-    Rcpp::traits::input_parameter< int >::type ndraws(ndrawsSEXP);
-    rcpp_result_gen = Rcpp::wrap(indexmatching_cpp(w1, w2, ndraws));
-    return rcpp_result_gen;
-END_RCPP
-}
 // create_A_
 NumericMatrix create_A_(double alpha, int d);
 RcppExport SEXP _CoupledCPF_create_A_(SEXP alphaSEXP, SEXP dSEXP) {
@@ -286,7 +273,6 @@ RcppExport SEXP _rcpp_module_boot_module_tree();
 static const R_CallMethodDef CallEntries[] = {
     {"_CoupledCPF_ar_rinit_rcpp", (DL_FUNC) &_CoupledCPF_ar_rinit_rcpp, 4},
     {"_CoupledCPF_ar_rtransition_rcpp", (DL_FUNC) &_CoupledCPF_ar_rtransition_rcpp, 6},
-    {"_CoupledCPF_indexmatching_cpp", (DL_FUNC) &_CoupledCPF_indexmatching_cpp, 3},
     {"_CoupledCPF_create_A_", (DL_FUNC) &_CoupledCPF_create_A_, 2},
     {"_CoupledCPF_levydriven_rtransition_rand_cpp", (DL_FUNC) &_CoupledCPF_levydriven_rtransition_rand_cpp, 2},
     {"_CoupledCPF_levydrivenmultifactor_rtransition_rand_cpp", (DL_FUNC) &_CoupledCPF_levydrivenmultifactor_rtransition_rand_cpp, 2},

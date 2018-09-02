@@ -45,6 +45,7 @@ CPF <- function(nparticles, model, theta, observations, ref_trajectory = NULL, w
         logm <- log(normweights) + logm
         w_as <- exp(logm - max(logm))
         w_as <- w_as / sum(w_as)
+        # Note: this is the same as using multinomial resampling
         ancestors[nparticles] <- systematic_resampling_n(w_as, 1, runif(1))
         x_last <- xparticles
       } else {
@@ -113,6 +114,7 @@ CPF_RB <- function(nparticles, model, theta, observations, ref_trajectory = NULL
         logm <- log(normweights) + logm
         w_as <- exp(logm - max(logm))
         w_as <- w_as / sum(w_as)
+        # Note: this is the same as multinomial resampling
         ancestors[nparticles] <- systematic_resampling_n(w_as, 1, runif(1))
         x_last <- xparticles
       } else {
@@ -133,6 +135,7 @@ CPF_RB <- function(nparticles, model, theta, observations, ref_trajectory = NULL
     trajectories[,,k+1] <- Tree$get_path(k)
     estimate <- estimate + normweights[k+1] * h(trajectories[,,k+1])
   }
+  # Note: this is the same as multinomial resampling
   new_trajectory <- matrix(trajectories[,,systematic_resampling_n(normweights, 1, runif(1))], nrow = model$dimension)
   return(list(new_trajectory = new_trajectory, estimate = estimate))
 }

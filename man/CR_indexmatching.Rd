@@ -4,11 +4,14 @@
 \alias{CR_indexmatching}
 \title{Coupled Resampling: index-matching}
 \usage{
-CR_indexmatching(xparticles1, xparticles2, normweights1, normweights2, ...)
+CR_indexmatching(xparticles1, xparticles2, normweights1, normweights2,
+  ntrials)
 }
 \value{
-Two vectors of ancestors, column-binded in a matrix.
+Two vectors of ancestors, column-binded in a matrix. Takes values between 1 and length(normweights1)
 }
 \description{
-This function performs coupled resampling based on index-matching.
+This function performs coupled resampling based on index-matching. It takes
+vectors of normalized weights, of same sizes, and number of desired samples ('ntrials').
+If 'ntrials' is not given, default to size of normweights1.
 }

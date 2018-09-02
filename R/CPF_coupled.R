@@ -67,16 +67,20 @@ CPF_coupled <- function(nparticles, model, theta, observations, ref_trajectory1,
       logm1 <- log(normweights1) + logm1
       w_as1 <- exp(logm1 - max(logm1))
       w_as1 <- w_as1 / sum(w_as1)
-      unif_resampling_as <- runif(1)
-      ancestors1[nparticles] = systematic_resampling_n(w_as1, 1, unif_resampling_as)
+      # unif_resampling_as <- runif(1)
+      # ancestors1[nparticles] = systematic_resampling_n(w_as1, 1, unif_resampling_as)
       x_last1 <- xparticles1
       #
       logm2 <- model$dtransition(ref_trajectory2[,time+1], x_last2, theta, time, model_precomputed)
       logm2 <- log(normweights2) + logm2
       w_as2 <- exp(logm2 - max(logm2))
       w_as2 <- w_as2 / sum(w_as2)
-      ancestors2[nparticles] = systematic_resampling_n(w_as2, 1, unif_resampling_as)
+      # ancestors2[nparticles] = systematic_resampling_n(w_as2, 1, unif_resampling_as)
       x_last2 <- xparticles2
+      ## sample ancestor indices with index-coupled resampling
+      ancestors_ <- CR_indexmatching(NULL, NULL, normweights1 = w_as1, normweights2 = w_as2, ntrials = 1)
+      ancestors1[nparticles] <- ancestors_[1,1]
+      ancestors2[nparticles] <- ancestors_[1,2]
     } else {
       ancestors1[nparticles] <- nparticles
       ancestors2[nparticles] <- nparticles
@@ -96,9 +100,13 @@ CPF_coupled <- function(nparticles, model, theta, observations, ref_trajectory1,
     Tree1$update(xparticles1, ancestors1 - 1)    
     Tree2$update(xparticles2, ancestors2 - 1)    
   }
-  u <- runif(1)
-  k_path1 <- systematic_resampling_n(normweights1, 1, u)
-  k_path2 <- systematic_resampling_n(normweights2, 1, u)
+  ## Sample paths using index-coupled resampling
+  ancestors_ <- CR_indexmatching(NULL, NULL, normweights1 = normweights1, normweights2 = normweights2, ntrials = 1)
+  k_path1 <- ancestors_[1,1]
+  k_path2 <- ancestors_[1,2]
+  # u <- runif(1)
+  # k_path1 <- systematic_resampling_n(normweights1, 1, u)
+  # k_path2 <- systematic_resampling_n(normweights2, 1, u)
   ##
   new_trajectory1 <- Tree1$get_path(k_path1 - 1)
   new_trajectory2 <- Tree2$get_path(k_path2 - 1)
@@ -176,16 +184,20 @@ CPF_coupled_RB <- function(nparticles, model, theta, observations, ref_trajector
       logm1 <- log(normweights1) + logm1
       w_as1 <- exp(logm1 - max(logm1))
       w_as1 <- w_as1 / sum(w_as1)
-      unif_resampling_as <- runif(1)
-      ancestors1[nparticles] = systematic_resampling_n(w_as1, 1, unif_resampling_as)
+      # unif_resampling_as <- runif(1)
+      # ancestors1[nparticles] = systematic_resampling_n(w_as1, 1, unif_resampling_as)
       x_last1 <- xparticles1
       #
       logm2 <- model$dtransition(ref_trajectory2[,time+1], x_last2, theta, time, model_precomputed)
       logm2 <- log(normweights2) + logm2
       w_as2 <- exp(logm2 - max(logm2))
       w_as2 <- w_as2 / sum(w_as2)
-      ancestors2[nparticles] = systematic_resampling_n(w_as2, 1, unif_resampling_as)
+      # ancestors2[nparticles] = systematic_resampling_n(w_as2, 1, unif_resampling_as)
       x_last2 <- xparticles2
+      ## sample ancestor indices with index-coupled resampling
+      ancestors_ <- CR_indexmatching(NULL, NULL, normweights1 = w_as1, normweights2 = w_as2, ntrials = 1)
+      ancestors1[nparticles] <- ancestors_[1,1]
+      ancestors2[nparticles] <- ancestors_[1,2]
     } else {
       ancestors1[nparticles] <- nparticles
       ancestors2[nparticles] <- nparticles
@@ -205,9 +217,13 @@ CPF_coupled_RB <- function(nparticles, model, theta, observations, ref_trajector
     Tree1$update(xparticles1, ancestors1 - 1)    
     Tree2$update(xparticles2, ancestors2 - 1)    
   }
-  u <- runif(1)
-  k_path1 <- systematic_resampling_n(normweights1, 1, u)
-  k_path2 <- systematic_resampling_n(normweights2, 1, u)
+  ## Sample path indices using index-coupled resampling
+  ancestors_ <- CR_indexmatching(NULL, NULL, normweights1 = normweights1, normweights2 = normweights2, ntrials = 1)
+  k_path1 <- ancestors_[1,1]
+  k_path2 <- ancestors_[1,2]
+  # u <- runif(1)
+  # k_path1 <- systematic_resampling_n(normweights1, 1, u)
+  # k_path2 <- systematic_resampling_n(normweights2, 1, u)
   ##
   trajectories1 <- array(dim = c(model$dimension, datalength + 1, nparticles))
   trajectories2 <- array(dim = c(model$dimension, datalength + 1, nparticles))
