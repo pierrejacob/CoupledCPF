@@ -24,9 +24,9 @@ coupled_resampling <- CR_indexmatching
 # parameter
 theta <- 0.9
 # number of independent replications (set to e.g. 1000)
-nrep <- 10
+nrep <- 1000
 # number of particles
-N <- 128
+N <- 256
 # initial distribution of the chains
 rinit <- function(){
   return(CPF(N, ar1, theta, observations, ref_trajectory = NULL, with_as = with_as))
@@ -46,9 +46,9 @@ with_as <- TRUE
 h <- function(x) x
 
 # try different values of k 
-ks <- c(5, 10, 20)
+ks <- c(10, 20)
 # m multiplier, i.e. m = k * mfactor
-mfactors <- c(1,2,5)
+mfactors <- c(1,2,3)
 # produce estimates
 estimates.df <- data.frame()
 for (ik in 1:length(ks)){

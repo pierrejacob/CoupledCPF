@@ -168,16 +168,20 @@ CPF_coupled_RB_optimal <- function(nparticles, observations, ref_trajectory1, re
       logm1 <- log(normweights1) + logm1
       w_as1 <- exp(logm1 - max(logm1))
       w_as1 <- w_as1 / sum(w_as1)
-      unif_resampling_as <- runif(1)
-      ancestors1[nparticles] = systematic_resampling_n(w_as1, 1, unif_resampling_as)
+      # unif_resampling_as <- runif(1)
+      # ancestors1[nparticles] = systematic_resampling_n(w_as1, 1, unif_resampling_as)
       x_last1 <- xparticles_next1
       #
       logm2 <- dtransition(ref_trajectory2[,time+1], x_last2, theta, time, NULL)
       logm2 <- log(normweights2) + logm2
       w_as2 <- exp(logm2 - max(logm2))
       w_as2 <- w_as2 / sum(w_as2)
-      ancestors2[nparticles] = systematic_resampling_n(w_as2, 1, unif_resampling_as)
+      # ancestors2[nparticles] = systematic_resampling_n(w_as2, 1, unif_resampling_as)
       x_last2 <- xparticles_next2
+      ## sample ancestor indices with index-coupled resampling
+      ancestors_ <- CR_indexmatching(NULL, NULL, normweights1 = w_as1, normweights2 = w_as2, ntrials = 1)
+      ancestors1[nparticles] <- ancestors_[1,1]
+      ancestors2[nparticles] <- ancestors_[1,2]
     } else {
       ancestors1[nparticles] <- nparticles
       ancestors2[nparticles] <- nparticles
@@ -199,9 +203,12 @@ CPF_coupled_RB_optimal <- function(nparticles, observations, ref_trajectory1, re
     Tree1$update(xparticles1, ancestors1 - 1)    
     Tree2$update(xparticles2, ancestors2 - 1)    
   }
-  u <- runif(1)
-  k_path1 <- systematic_resampling_n(normweights1, 1, u)
-  k_path2 <- systematic_resampling_n(normweights2, 1, u)
+  # u <- runif(1)
+  # k_path1 <- systematic_resampling_n(normweights1, 1, u)
+  # k_path2 <- systematic_resampling_n(normweights2, 1, u)
+  ancestors_ <- CR_indexmatching(NULL, NULL, normweights1 = normweights1, normweights2 = normweights2, ntrials = 1)
+  k_path1 <- ancestors_[1,1]
+  k_path2 <- ancestors_[1,2]
   ##
   trajectories1 <- array(dim = c(dimension, datalength + 1, nparticles))
   trajectories2 <- array(dim = c(dimension, datalength + 1, nparticles))
@@ -221,9 +228,10 @@ CPF_coupled_RB_optimal <- function(nparticles, observations, ref_trajectory1, re
 }
 
 ## number of independent replications
-nrep <- 1000
+nrep <- 500
 # time horizons
-datalengths <- c(100, 200, 400, 800, 1600)
+# datalengths <- c(100, 200, 400, 800, 1600)
+datalengths <- c(50, 100, 200, 400, 800)
 # numbers of particles
 seq_nparticles <- c(128, 256, 512, 1024, 2048)
 # filename to store the results

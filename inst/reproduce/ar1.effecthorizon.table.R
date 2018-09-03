@@ -13,20 +13,32 @@ setmytheme()
 set.seed(17)
 module_tree <<- Module("module_tree", PACKAGE = "CoupledCPF")
 TreeClass <<- module_tree$Tree
+# 
+# load("ar1.effecttimehorizon.R10.RData")
+# # estimates_was.df
+# estimates_woas.df <- estimates_was.df
+# estimates_woas.df$with_as <- FALSE
+# estimates.df <- rbind(estimates_was.df, estimates_woas.df)
+# estimates.df$pf <- "BPF"
+# estimates.df2 <- estimates.df
+# estimates.df2$pf <- "APF"
+# estimates.df <- rbind(estimates.df, estimates.df2)
 
+nrep <- 500
 # load results with BPF
-savefilename <- paste0("ar1.effecttimehorizon.R", 1000, ".RData")
+savefilename <- paste0("ar1.effecttimehorizon.R", nrep, ".RData")
 load(savefilename)
 estimates.df <- rbind(estimates_was.df, estimates_woas.df)
 estimates.df$pf <- "BPF"
 
+nrep <- 500
 # load results with APF
-savefilename <- paste0("ar1.effecttimehorizon.optimal.R", 1000, ".RData")
+savefilename <- paste0("ar1.effecttimehorizon.optimal.R", nrep, ".RData")
 load(savefilename)
-
 estimates.optimal.df <- rbind(estimates_was.df, estimates_woas.df)
 estimates.optimal.df$pf <- "APF"
 estimates.df <- rbind(estimates.df, estimates.optimal.df)
+
 estimates.df %>% tail
 times.df <- estimates.df %>%  group_by(irep, with_as, nparticles, datalength, pf) %>% summarise(iteration = mean(iteration))
 times.df <- times.df %>% mutate(cost = nparticles * iteration) %>% select(irep, with_as, nparticles, datalength, iteration, pf)
@@ -38,6 +50,7 @@ m
 tm <- dcast(m, nt ~ with_as + pf, value.var = "iter")
 colnames(tm) <- c("", "APF without ancestor sampling", "BPF without ancestor sampling", "APF with ancestor sampling", "BPF with ancestor sampling")
 tm <- tm[c(2,4,5,1,3),c(1,3,5,2,4)]
+tm
 
 library(xtable)
 

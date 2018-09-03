@@ -36,7 +36,7 @@ dimension <- 2
 pz <- get_pz()
 
 nrep <- 100
-seq_nparticles <- c(1024, 2048, 4096)
+seq_nparticles <- c(4096)
 
 # nparticles <- 2^12
 # algoparameters <- list(nparticles = nparticles, coupled_resampling = CR_indexmatching, lambda = 0, with_as = FALSE)
@@ -82,7 +82,7 @@ ggplot(meetings.df %>% group_by(nparticles) %>% summarise(m = mean(meetingtime))
        aes(x = nparticles, y = m)) + geom_point()
 
 summ.df <- meetings.df %>% group_by(nparticles) %>% summarise(k = floor(quantile(meetingtime, probs = 0.9)))
-summ.df$k
+print(summ.df$k)
 
 nrep <- 1000
 estimates.df <- data.frame()

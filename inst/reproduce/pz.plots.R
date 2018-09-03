@@ -25,7 +25,7 @@ truemeanZ.df <- PG.mean.df %>% filter(component == 2) %>% select(-component,-v) 
 
 ### load results from fixed lag smoother
 nparticles <- 2^16
-nrep <- 100
+nrep <- 1000
 load(file = paste0("pz.fxdlagR", nrep, "N", nparticles, "T365.RData"))
 # 
 fixedlag.summary.dfL10 <- fixedlag.dfL10 %>% group_by(time) %>% summarize(meanZ = mean(Z), varZ = var(Z), nrep = n())
@@ -53,7 +53,7 @@ g <- ggplot(estimates.df %>% filter(nparticles == 4096, time == 0), aes(x = meet
   geom_histogram(aes(y = ..density..), bins = 10) + 
   scale_x_continuous(breaks = c(1,5,10,15)) + xlab(expression(tau))
 g
-# ggsave(filename = "pz.meetingtime.pdf", plot = g, width = 5, height = 4)
+ggsave(filename = "pz.meetingtime.pdf", plot = g, width = 5, height = 4)
 
 # compute cost 
 cost <- function(tau, m) 2 * tau + pmax(1, m + 1 - tau)
@@ -88,5 +88,5 @@ label.df <- data.frame(time = c(-35,-35,-40),
                        method = c("fixed-lag", "particle filter", "unbiased"))
 g <- g + geom_label(data = label.df, aes(x = time, y = y, label = method), size = 6) + theme(legend.position = "none")
 g
-# ggsave(filename = "pz.relativevariance.pdf", plot = g, width = 10, height = 4)
+ggsave(filename = "pz.relativevariance.pdf", plot = g, width = 10, height = 4)
 

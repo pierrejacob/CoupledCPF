@@ -20,9 +20,10 @@ original_observations <- observations
 coupled_resampling <- CR_indexmatching
 # algoparameters <- list(coupled_resampling = CR_indexmatching, lambda = 0)
 theta <- 0.9
-nrep <- 1000
+nrep <- 500
 # time horizons
-datalengths <- c(100, 200, 400, 800, 1600)
+# datalengths <- c(100, 200, 400, 800, 1600)
+datalengths <- c(50, 100, 200, 400, 800)
 # numbers of particles
 seq_nparticles <- c(128, 256, 512, 1024, 2048)
 # filename for results

@@ -78,13 +78,13 @@ ks <- function(kf_results, phi, sigmaw){
 ks_results <- ks(kf_results, phi_star, sigma_w_star)
 ksmeans.df <- data.frame(time = 0:datalength, truemeans = ks_results$ks_means)
 
-# First, meeting times for N=128 particles
+# First, meeting times for N=256 particles
 load("ar.kandm.RData")
 estimates.df %>% nrow
 g <- ggplot(estimates.df, aes(x = meetingtime))
 g <- g + geom_histogram(aes(y = ..density..), bins = 15) + xlab(expression(tau))
 g
-# ggsave(filename = "ar1.meetingtime.pdf", plot = g, width = 5, height = 4)
+ggsave(filename = "ar1.meetingtime.pdf", plot = g, width = 5, height = 4)
 
 cost <- function(tau, m) 3 + 2 * (tau-1) + pmax(0, m - tau)
 estimates.df <- estimates.df %>% mutate(c = cost(meetingtime, iteration))
@@ -94,7 +94,9 @@ df <- df %>% mutate(ymin = meanestim - 2 * sqrt(varestim/nrep), ymax = meanestim
 
 # For k = 10, m = 20, the average cost is 
 df %>% filter(k == 10, m == 20) %>% group_by(k,m) %>% summarise(cost = mean(meancost), sdcost = sqrt(mean(varcost)))
-# the cost is 28.151... and the standard deviation 3.7, which is about 13%
+# For k = 20, m = 40, the average cost is 
+df %>% filter(k == 20, m == 40) %>% group_by(k,m) %>% summarise(cost = mean(meancost), sdcost = sqrt(mean(varcost)))
+# the cost is XXX.. and the standard deviation XX
 df %>% head
 
 df.100 <- estimates.df %>% filter(irep <= 100) %>% group_by(time,k,m) %>% summarise(meanestim = mean(estimate), varestim = var(estimate), meancost = mean(c), varcost = var(c), nrep = n())
@@ -102,11 +104,12 @@ df.100 <- df.100 %>% mutate(inef = varestim * meancost)
 df.100 <- df.100 %>% mutate(ymin = meanestim - 2 * sqrt(varestim/nrep), ymax = meanestim + 2 * sqrt(varestim/nrep))
 
 g <- ggplot(df.100 %>% filter(time >=0, time <= 100, k == 10, m == 20), aes(x = time))
+# g <- ggplot(df.100 %>% filter(time >=0, time <= 100, k == 20, m == 40), aes(x = time))
 g <- g + geom_errorbar(aes(ymin = ymin, ymax = ymax), position = position_dodge())
 g <- g + geom_line(data=ksmeans.df %>% filter(time >=0, time <= 100), aes(x = time, y = truemeans, group = NULL, colour = NULL), colour = "red", alpha = 0.5)
 g <- g + xlab("time") + ylab("smoothing means")
 g
-# ggsave(filename = "ar1.smoothingmeans.pdf", plot = g, width = 10, height = 4)
+ggsave(filename = "ar1.smoothingmeans.pdf", plot = g, width = 10, height = 4)
 
 
 ## Meeting times for different numbers of particles, fixed time horizon

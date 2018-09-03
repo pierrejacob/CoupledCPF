@@ -47,7 +47,7 @@ g <- g + coord_flip()
 g <- g + ylab(TeX('estimate')) + xlab("")
 g
 
-# ggsave(plot = g, filename = "unlikely.rg.variousN.pdf", width = 7, height = 5)
+ggsave(plot = g, filename = "unlikely.rg.variousN.pdf", width = 7, height = 5)
 
 
 #####
@@ -77,7 +77,7 @@ label.df <- data.frame(x = c(0.3,0.37,0.44,0.51), y = c(3,4,5,6), txt = c("N=256
 g <- g + geom_label(data=label.df, aes(x = x, y = y, label = txt, colour = NULL, group = NULL, fill = NULL),
                     size = 7)
 g
-# ggsave(plot = g, filename = "unlikely.pf.variousN.pdf", width = 7, height = 5)
+ggsave(plot = g, filename = "unlikely.pf.variousN.pdf", width = 7, height = 5)
 
 
 

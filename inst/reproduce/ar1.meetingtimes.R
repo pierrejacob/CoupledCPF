@@ -22,9 +22,9 @@ observations <- matrix(observations[1:datalength,], ncol = 1)
 coupled_resampling <- CR_indexmatching
 theta <- 0.9
 # number of independent replicates (set to e.g. 1000)
-nrep <- 10
+nrep <- 1000
 # different numbers of particles
-seq_nparticles <- c(16, 128, 512, 2048)
+seq_nparticles <- c(16, 128, 256, 512, 1024)
 #### Generate unbiased estimators with index-matching resampling
 #### and various numbers of particles
 #### and with ancestor sampling
@@ -58,3 +58,4 @@ for (N in seq_nparticles){
 }
 
 load("ar1.meetingtime.RData")
+head(meetings.df)
